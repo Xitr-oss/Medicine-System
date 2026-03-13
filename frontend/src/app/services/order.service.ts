@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class OrderService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:5001/api/orders';
+  private apiUrl = 'http://localhost:5000/api/orders';
 
   constructor() { }
 

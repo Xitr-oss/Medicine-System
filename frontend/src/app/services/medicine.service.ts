@@ -6,7 +6,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 })
 export class MedicineService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:5001/api/medicines';
+  private apiUrl = 'http://localhost:5000/api/medicines';
 
   constructor() { }
 

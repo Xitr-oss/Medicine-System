@@ -1,0 +1,46 @@
+image: mcr.microsoft.com/dotnet/sdk:10.0
+
+stages:
+  - restore
+  - build
+  - test
+  - publish
+
+variables:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+  DOTNET_NOLOGO: "true"
+  PROJECT_PATH: "backend/backend.csproj"
+  PUBLISH_DIR: "backend/publish"
+
+cache:
+  key: "${CI_COMMIT_REF_SLUG}"
+  paths:
+    - .nuget/packages/
+
+before_script:
+  - dotnet --info
+
+restore:
+  stage: restore
+  script:
+    - dotnet restore "$PROJECT_PATH" --packages .nuget/packages
+
+build:
+  stage: build
+  script:
+    - dotnet build "$PROJECT_PATH" --configuration Release --no-restore
+
+validate:
+  stage: test
+  script:
+    - dotnet test "$PROJECT_PATH" --configuration Release --no-build --verbosity normal
+
+publish:
+  stage: publish
+  script:
+    - dotnet publish "$PROJECT_PATH" --configuration Release --no-build --output "$PUBLISH_DIR"
+  artifacts:
+    name: "backend-publish-${CI_COMMIT_SHORT_SHA}"
+    paths:
+      - backend/publish/
+    expire_in: 1 week

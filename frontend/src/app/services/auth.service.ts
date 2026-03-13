@@ -7,7 +7,7 @@ import { BehaviorSubject, tap } from 'rxjs';
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:5001/api/auth'; // Ensure this matches typical ASP.NET HTTPS ports or use 5000 for HTTP
+  private apiUrl = 'http://localhost:5000/api/auth'; // Ensure this matches typical ASP.NET HTTPS ports or use 5000 for HTTP
 
   private currentRoleSubject = new BehaviorSubject<string | null>(this.getRole());
   currentRole$ = this.currentRoleSubject.asObservable();

@@ -26,8 +26,13 @@ public partial class OnlinemedicineorderingdbContext : DbContext
     public virtual DbSet<Orderitem> Orderitems { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("Server=127.0.0.1;Port=3306;Database=onlinemedicineorderingdb;User=root;Password=Anas@123;");
+            optionsBuilder.UseMySQL("Server=localhost;Port=3306;Database=onlinemedicineorderingdb;User=root;Password=Password@123;");
+        }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
