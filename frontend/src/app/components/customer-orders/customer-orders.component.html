@@ -1,0 +1,61 @@
+<div class="container orders-container">
+  <div class="header">
+    <h2>My Order History</h2>
+    <p class="subtitle">View and track all your past orders.</p>
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <p>Loading your orders...</p>
+  </div>
+
+  <div *ngIf="!loading && orders.length === 0" class="empty-state">
+    <div class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+    </div>
+    <h3>No orders found</h3>
+    <p>You haven't placed any orders yet.</p>
+  </div>
+
+  <div class="orders-list" *ngIf="!loading && orders.length > 0">
+    <div class="order-card" *ngFor="let order of orders">
+      <div class="order-header">
+        <div class="order-id">
+          Order #{{ order.id }}
+          <span class="date">{{ order.orderDate | date:'medium' }}</span>
+        </div>
+        <div class="status-badge" [ngClass]="'status-' + order.status.toLowerCase()">
+          {{ order.status }}
+        </div>
+      </div>
+      
+      <div class="order-items">
+        <table class="table-glass" style="box-shadow: none; border: 1px solid var(--border);">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty</th>
+              <th>Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of order.items">
+              <td>{{ item.medicineName }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>{{ item.unitPrice | currency:'INR':'symbol' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="order-footer">
+        <div *ngIf="order.notes" class="notes">
+          <strong>Notes: </strong>{{ order.notes }}
+        </div>
+        <div class="total">
+          <strong>Total Amount: </strong>
+          <span class="amount">{{ order.totalAmount | currency:'INR':'symbol' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

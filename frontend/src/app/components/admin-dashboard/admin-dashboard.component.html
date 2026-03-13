@@ -1,0 +1,85 @@
+<div class="container admin-container">
+  <div class="header">
+    <h2>Admin Dashboard</h2>
+    <p class="subtitle">Overview of system statistics and recent orders.</p>
+  </div>
+
+  <div class="stats-grid" *ngIf="stats">
+    <div class="stat-card">
+      <div class="icon blue">💊</div>
+      <div class="content">
+        <h4>Total Medicines</h4>
+        <div class="value">{{ stats.totalMedicines }}</div>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="icon green">👥</div>
+      <div class="content">
+        <h4>Total Customers</h4>
+        <div class="value">{{ stats.totalCustomers }}</div>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="icon orange">📦</div>
+      <div class="content">
+        <h4>Total Orders</h4>
+        <div class="value">{{ stats.totalOrders }}</div>
+      </div>
+    </div>
+    
+    <div class="stat-card">
+      <div class="icon purple">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-indian-rupee"><path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3"/><path d="M9 13c6.667 0 6.667-10 0-10"/></svg>
+      </div>
+      <div class="content">
+        <h4>Total Revenue</h4>
+        <div class="value">{{ stats.totalRevenue | currency:'INR':'symbol' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="orders-section">
+    <h3>Recent Orders</h3>
+    <div class="loading-state" *ngIf="loading">Loading orders...</div>
+    
+    <div class="table-responsive" *ngIf="!loading">
+      <table class="table-glass">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Date</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders">
+            <td>#{{ order.id }}</td>
+            <td>
+              <strong>{{ order.customerName }}</strong>
+            </td>
+            <td>{{ order.orderDate | date:'short' }}</td>
+            <td style="font-weight: 600;">{{ order.totalAmount | currency:'INR':'symbol' }}</td>
+            <td>
+              <span class="badge" [ngClass]="'badge-' + (order.status === 'Completed' ? 'success' : order.status === 'Cancelled' ? 'danger' : order.status === 'Pending' ? 'warning' : 'info')">
+                {{ order.status }}
+              </span>
+            </td>
+            <td>
+              <select class="status-select" (change)="updateStatus(order, $event)">
+                <option value="Pending" [selected]="order.status === 'Pending'">Pending</option>
+                <option value="Processing" [selected]="order.status === 'Processing'">Processing</option>
+                <option value="Completed" [selected]="order.status === 'Completed'">Completed</option>
+                <option value="Cancelled" [selected]="order.status === 'Cancelled'">Cancelled</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

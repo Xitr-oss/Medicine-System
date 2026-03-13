@@ -1,0 +1,44 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <a routerLink="/" class="brand">
+      <span class="icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pill"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>
+      </span>
+      <span class="name">MediQuick</span>
+    </a>
+
+    <div class="nav-links">
+      <a routerLink="/catalog" routerLinkActive="active">Catalog</a>
+
+      <ng-container *ngIf="(authService.isLoggedIn$ | async) === false">
+        <a routerLink="/login" routerLinkActive="active">Login</a>
+        <a routerLink="/register" class="btn-register">Register</a>
+      </ng-container>
+
+      <ng-container *ngIf="authService.isLoggedIn$ | async">
+        <ng-container *ngIf="(authService.currentRole$ | async) === 'Customer'">
+          <a routerLink="/my-orders" routerLinkActive="active">My Orders</a>
+        </ng-container>
+
+        <ng-container *ngIf="(authService.currentRole$ | async) === 'Admin'">
+          <a routerLink="/admin/dashboard" routerLinkActive="active">Dashboard</a>
+          <a routerLink="/admin/medicines" routerLinkActive="active">Manage Medicines</a>
+        </ng-container>
+        
+        <button (click)="logout()" class="btn-logout">Logout</button>
+      </ng-container>
+
+      <!-- Cart Icon always visible for Customers or Guests -->
+      <ng-container *ngIf="(authService.currentRole$ | async) !== 'Admin'">
+        <a routerLink="/cart" class="cart-link" routerLinkActive="active">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="cart-badge" *ngIf="cartItemCount > 0">{{ cartItemCount }}</span>
+        </a>
+      </ng-container>
+    </div>
+  </div>
+</nav>

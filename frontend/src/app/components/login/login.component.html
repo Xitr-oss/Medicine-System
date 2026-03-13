@@ -1,0 +1,42 @@
+<div class="auth-container">
+  <div class="auth-image-side">
+    <div class="branding">
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-plus"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="M9 12h6"/><path d="M12 9v6"/></svg>
+      </div>
+      <h1>Welcome back to MediQuick.</h1>
+      <p>Log in to track your orders, manage your prescriptions, and shop our extensive catalog of medical supplies.</p>
+    </div>
+  </div>
+
+  <div class="auth-form-side">
+    <div class="auth-card">
+      <h2>Account Login</h2>
+      <p>Please enter your details to access your dashboard.</p>
+      
+      <div *ngIf="error" class="badge badge-danger" style="display:block; margin-bottom: 1.5rem; text-align:center; padding: 0.75rem;">
+        {{ error }}
+      </div>
+
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" formControlName="email" placeholder="john@example.com" />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password (Phone Number)</label>
+          <input type="password" id="password" formControlName="password" placeholder="Enter your registered phone" />
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="loginForm.invalid || loading">
+          {{ loading ? 'Authenticating...' : 'Sign In' }}
+        </button>
+      </form>
+
+      <div class="auth-links">
+        Don't have an account? <a routerLink="/register">Create one here</a>
+      </div>
+    </div>
+  </div>
+</div>

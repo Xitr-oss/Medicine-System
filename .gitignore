@@ -1,0 +1,18 @@
+# Backend - ASP.NET Core
+backend/bin/
+backend/obj/
+backend/*.user
+backend/.vs/
+
+# Frontend - Angular / Node
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+
+# Environment & Secrets
+*.env
+appsettings.Development.json
+
+# OS
+.DS_Store
+Thumbs.db

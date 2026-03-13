@@ -1,0 +1,46 @@
+<div class="container catalog-container">
+  <div class="sidebar">
+    <h3>Categories</h3>
+    <ul class="category-list">
+      <li [class.active]="selectedCategoryId === null" (click)="filterByCategory(null)">All Medicines</li>
+      <li *ngFor="let cat of categories" [class.active]="selectedCategoryId === cat.id" (click)="filterByCategory(cat.id)">
+        {{ cat.name }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <div class="header">
+      <div class="header-text">
+        <h2>Medicine Catalog</h2>
+        <p class="subtitle">Explore our wide range of quality medicines.</p>
+      </div>
+      <div class="search-box">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search medicines..." [(ngModel)]="searchQuery" (input)="onSearch()" />
+      </div>
+    </div>
+
+    <div class="loading-state" *ngIf="loading">
+      <p>Loading medicines...</p>
+    </div>
+
+    <div class="medicines-grid" *ngIf="!loading && medicines.length > 0">
+      <div class="medicine-card" *ngFor="let med of medicines">
+        <div class="card-image-wrap">
+          <img [src]="med.imageUrl || 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&q=80&w=500'" [alt]="med.name" class="medicine-img">
+        </div>
+        <div class="card-content">
+          <span class="category-tag">{{ med.categoryName }}</span>
+          <h3 class="name">{{ med.name }}</h3>
+          <p class="price">{{ med.price | currency:'INR':'symbol' }}</p>
+          <button class="btn-primary" (click)="addToCart(med)">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="!loading && medicines.length === 0">
+      <p>No medicines found for this category.</p>
+    </div>
+  </div>
+</div>
