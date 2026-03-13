@@ -28,17 +28,20 @@ restore:
 build:
   stage: build
   script:
+    - dotnet restore "$PROJECT_PATH" --packages .nuget/packages
     - dotnet build "$PROJECT_PATH" --configuration Release --no-restore
 
 validate:
   stage: test
   script:
-    - dotnet test "$PROJECT_PATH" --configuration Release --no-build --verbosity normal
+    - dotnet restore "$PROJECT_PATH" --packages .nuget/packages
+    - dotnet test "$PROJECT_PATH" --configuration Release --verbosity normal
 
 publish:
   stage: publish
   script:
-    - dotnet publish "$PROJECT_PATH" --configuration Release --no-build --output "$PUBLISH_DIR"
+    - dotnet restore "$PROJECT_PATH" --packages .nuget/packages
+    - dotnet publish "$PROJECT_PATH" --configuration Release --output "$PUBLISH_DIR"
   artifacts:
     name: "backend-publish-${CI_COMMIT_SHORT_SHA}"
     paths:
