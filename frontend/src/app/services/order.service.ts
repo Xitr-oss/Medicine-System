@@ -27,6 +27,6 @@ export class OrderService {
   }
 
   getDashboardStats() {
-    return this.http.get<any>('http://localhost:5000/api/dashboard/stats');
+    return this.http.get<any>(`${this.apiUrl.replace('/orders', '')}/dashboard/stats`);
   }
 }
